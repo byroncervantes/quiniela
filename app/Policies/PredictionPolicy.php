@@ -34,10 +34,15 @@ class PredictionPolicy
     /**
      * Determine whether the user can create a prediction.
      */
-    public function create(User $user, GameMatch $match, int $poolId): bool
+    public function create(User $user, ?GameMatch $match = null, ?int $poolId = null): bool
     {
         if ($user->status !== 'active') {
             return false;
+        }
+
+        // If no match or pool is passed, allow general creation access
+        if ($match === null || $poolId === null) {
+            return true;
         }
 
         // Must not be locked
