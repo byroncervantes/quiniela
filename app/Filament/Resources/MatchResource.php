@@ -23,7 +23,7 @@ class MatchResource extends Resource
 
     protected static \BackedEnum|string|null $navigationIcon = 'heroicon-o-calendar';
 
-    protected static \UnitEnum|string|null $navigationGroup = 'Mundial 2026';
+    protected static \UnitEnum|string|null $navigationGroup = 'Datos Deportivos';
 
     protected static ?string $modelLabel = 'Partido';
 

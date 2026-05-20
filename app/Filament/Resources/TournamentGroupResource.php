@@ -16,7 +16,7 @@ class TournamentGroupResource extends Resource
 
     protected static \BackedEnum|string|null $navigationIcon = 'heroicon-o-folder-open';
 
-    protected static \UnitEnum|string|null $navigationGroup = 'Mundial 2026';
+    protected static \UnitEnum|string|null $navigationGroup = 'Datos Deportivos';
 
     protected static ?string $modelLabel = 'Grupo';
 
