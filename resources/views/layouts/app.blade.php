@@ -121,7 +121,7 @@
                 <div class="flex items-center gap-4">
                     <div class="hidden sm:flex flex-col text-right">
                         <span class="text-xs font-semibold text-slate-700">{{ Auth::user()->name }}</span>
-                        <span class="text-[10px] text-slate-400 font-medium capitalize">{{ Auth::user()->branch?->name }} - {{ Auth::user()->department }}</span>
+                        <span class="text-[10px] text-slate-400 font-medium capitalize">{{ Auth::user()->branch?->name }} - {{ Auth::user()->department?->name }}</span>
                     </div>
 
                     <form action="{{ route('logout') }}" method="POST" class="inline">

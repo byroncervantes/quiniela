@@ -24,7 +24,7 @@
                     {{ $user->branch?->name }}
                 </span>
                 <span class="px-3 py-1 rounded-full bg-white/10 text-xs font-semibold uppercase tracking-wider text-blue-200">
-                    {{ $user->department }}
+                    {{ $user->department?->name }}
                 </span>
             </div>
         </div>

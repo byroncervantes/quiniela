@@ -71,11 +71,15 @@ class UserResource extends Resource
                             ->label('Teléfono / WhatsApp')
                             ->maxLength(255),
                         Forms\Components\TextInput::make('employee_code')
-                            ->label('Código de Empleado')
-                            ->maxLength(255),
-                        Forms\Components\TextInput::make('department')
+                            ->label('Documento Identificación (DPI)')
+                            ->required()
+                            ->minLength(13)
+                            ->maxLength(20)
+                            ->regex('/^[0-9]+$/'),
+                        Forms\Components\Select::make('department_id')
                             ->label('Departamento')
-                            ->maxLength(255),
+                            ->relationship('department', 'name')
+                            ->nullable(),
                         Forms\Components\Select::make('branch_id')
                             ->label('Sucursal')
                             ->relationship('branch', 'name')
@@ -134,7 +138,7 @@ class UserResource extends Resource
                 Tables\Columns\TextColumn::make('branch.name')
                     ->label('Sucursal')
                     ->sortable(),
-                Tables\Columns\TextColumn::make('department')
+                Tables\Columns\TextColumn::make('department.name')
                     ->label('Departamento')
                     ->sortable(),
             ])

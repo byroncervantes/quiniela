@@ -70,6 +70,12 @@ class QuinMariscalTest extends TestCase
             'is_active' => true,
         ]);
 
+        $dept = \App\Models\Department::firstOrCreate([
+            'name' => 'Administración',
+        ], [
+            'is_active' => true,
+        ]);
+
         // 3. Create Admin User
         $this->admin = User::create([
             'name' => 'Administrador QuinMariscal',
@@ -77,7 +83,8 @@ class QuinMariscalTest extends TestCase
             'password' => Hash::make('password'),
             'role' => 'super_admin',
             'status' => 'active',
-            'employee_code' => 'ADMIN01',
+            'employee_code' => '1000000000001',
+            'department_id' => $dept->id,
             'company' => 'Distribuidora Mariscal',
             'accepted_terms' => true,
         ]);
@@ -146,14 +153,21 @@ class QuinMariscalTest extends TestCase
             'is_active' => true,
         ]);
 
+        // Create a test department
+        $department = \App\Models\Department::firstOrCreate([
+            'name' => 'Administración'
+        ], [
+            'is_active' => true,
+        ]);
+
         // 1. Attempt invalid domain registration
         $response = $this->post('/register', [
             'name' => 'Colaborador Invalido',
             'email' => 'invalido@gmail.com',
             'phone' => '12345678',
-            'employee_code' => 'EMP001',
+            'employee_code' => '1000000000002',
             'branch_id' => $branch->id,
-            'department' => 'Administración',
+            'department_id' => $department->id,
             'password' => 'pass123',
             'password_confirmation' => 'pass123',
             'accepted_terms' => 'on',
@@ -167,9 +181,9 @@ class QuinMariscalTest extends TestCase
             'name' => 'Colaborador Valido',
             'email' => 'colaborador@distmariscal.com',
             'phone' => '87654321',
-            'employee_code' => 'EMP002',
+            'employee_code' => '1000000000003',
             'branch_id' => $branch->id,
-            'department' => 'Administración',
+            'department_id' => $department->id,
             'password' => 'pass123',
             'password_confirmation' => 'pass123',
             'accepted_terms' => 'on',
@@ -191,7 +205,7 @@ class QuinMariscalTest extends TestCase
             'password' => Hash::make('password'),
             'role' => 'participante',
             'status' => 'active',
-            'employee_code' => 'EMP003',
+            'employee_code' => '1000000000004',
         ]);
 
         PoolParticipant::create([
@@ -247,13 +261,13 @@ class QuinMariscalTest extends TestCase
             'name' => 'User B',
             'email' => 'userb@distmariscal.com',
             'password' => Hash::make('password'),
-            'employee_code' => 'EMPB',
+            'employee_code' => '1000000000005',
         ]);
         $userC = User::create([
             'name' => 'User C',
             'email' => 'userc@distmariscal.com',
             'password' => Hash::make('password'),
-            'employee_code' => 'EMPC',
+            'employee_code' => '1000000000006',
         ]);
 
         // 1. Prediction A: Exact Score (Predicted 2-1, Match was 2-1)
@@ -317,8 +331,8 @@ class QuinMariscalTest extends TestCase
         $rankingService = new RankingService();
 
         // Create 2 users
-        $user1 = User::create(['name' => 'User One', 'email' => 'one@distmariscal.com', 'password' => Hash::make('pass'), 'employee_code' => 'E1']);
-        $user2 = User::create(['name' => 'User Two', 'email' => 'two@distmariscal.com', 'password' => Hash::make('pass'), 'employee_code' => 'E2']);
+        $user1 = User::create(['name' => 'User One', 'email' => 'one@distmariscal.com', 'password' => Hash::make('pass'), 'employee_code' => '1000000000007']);
+        $user2 = User::create(['name' => 'User Two', 'email' => 'two@distmariscal.com', 'password' => Hash::make('pass'), 'employee_code' => '1000000000008']);
 
         $part1 = PoolParticipant::create(['pool_id' => $this->pool->id, 'user_id' => $user1->id, 'status' => 'approved', 'joined_at' => now()]);
         $part2 = PoolParticipant::create(['pool_id' => $this->pool->id, 'user_id' => $user2->id, 'status' => 'approved', 'joined_at' => now()->addHour()]);

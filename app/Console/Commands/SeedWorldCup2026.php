@@ -96,6 +96,10 @@ class SeedWorldCup2026 extends Command
                 ['name' => 'Central - Ciudad de Guatemala'],
                 ['is_active' => true]
             );
+            $department = \App\Models\Department::firstOrCreate(
+                ['name' => 'Administración'],
+                ['is_active' => true]
+            );
             $admin = User::updateOrCreate(
                 ['email' => 'admin@quinmariscal.local'],
                 [
@@ -104,8 +108,8 @@ class SeedWorldCup2026 extends Command
                     'role' => 'super_admin',
                     'status' => 'active',
                     'phone' => '12345678',
-                    'employee_code' => 'ADMIN01',
-                    'department' => 'Administración',
+                    'employee_code' => '1000000000001',
+                    'department_id' => $department->id,
                     'branch_id' => $branch->id,
                     'company' => 'Distribuidora Mariscal',
                     'accepted_terms' => true,

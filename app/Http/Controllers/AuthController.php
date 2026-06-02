@@ -69,19 +69,7 @@ class AuthController extends Controller
 
         $branches = \App\Models\Branch::where('is_active', true)->orderBy('name', 'asc')->get();
 
-        $departments = [
-            'Ventas / Ventas Rutas',
-            'Administración',
-            'Logística / Despacho / Bodega',
-            'Contabilidad y Finanzas',
-            'Recursos Humanos',
-            'Sistemas / IT',
-            'Créditos y Cobros',
-            'Operaciones',
-            'Servicio al Cliente',
-            'Mercadeo',
-            'Auditoría Interna'
-        ];
+        $departments = \App\Models\Department::where('is_active', true)->orderBy('name', 'asc')->get();
 
         return view('auth.register', compact('branches', 'departments'));
     }
@@ -113,8 +101,8 @@ class AuthController extends Controller
                 }
             ],
             'phone' => 'nullable|string|max:30',
-            'employee_code' => 'required|string|max:50|unique:users,employee_code',
-            'department' => 'required|string|max:100',
+            'employee_code' => 'required|string|min:13|max:50|unique:users,employee_code|regex:/^[0-9]+$/',
+            'department_id' => 'required|exists:departments,id',
             'branch_id' => 'required|exists:branches,id',
             'password' => 'required|string|min:6|confirmed',
             'accepted_terms' => 'accepted',
@@ -137,7 +125,7 @@ class AuthController extends Controller
             'status' => $status,
             'phone' => $request->phone,
             'employee_code' => $request->employee_code,
-            'department' => $request->department,
+            'department_id' => $request->department_id,
             'branch_id' => $request->branch_id,
             'company' => 'Distribuidora Mariscal',
             'accepted_terms' => true,

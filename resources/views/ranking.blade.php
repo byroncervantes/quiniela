@@ -114,8 +114,8 @@
                                     </div>
                                     <div>
                                         <span class="block font-bold text-slate-700 leading-tight">{{ $user->name }}</span>
-                                        <span class="block md:hidden text-[10px] text-slate-400 font-medium mt-0.5">{{ $user->branch?->name }} &middot; {{ $user->department }}</span>
-                                        <span class="hidden md:block text-[10px] text-slate-400 font-bold uppercase tracking-wider mt-0.5">Cód. {{ $user->employee_code }}</span>
+                                        <span class="block md:hidden text-[10px] text-slate-400 font-medium mt-0.5">{{ $user->branch?->name }} &middot; {{ $user->department?->name }}</span>
+                                        <span class="hidden md:block text-[10px] text-slate-400 font-bold uppercase tracking-wider mt-0.5">DPI: {{ $user->employee_code }}</span>
                                     </div>
                                 </div>
                             </td>
@@ -127,7 +127,7 @@
 
                             <!-- Department Desktop -->
                             <td class="py-4 px-4 text-slate-600 font-medium hidden md:table-cell">
-                                {{ $user->department }}
+                                {{ $user->department?->name }}
                             </td>
 
                             <!-- Points -->

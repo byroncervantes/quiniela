@@ -29,7 +29,7 @@ class User extends Authenticatable implements FilamentUser
         'status', // active, pending, blocked
         'phone',
         'employee_code',
-        'department',
+        'department_id',
         'branch_id',
         'company',
         'accepted_terms',
@@ -62,6 +62,14 @@ class User extends Authenticatable implements FilamentUser
     public function branch(): BelongsTo
     {
         return $this->belongsTo(Branch::class);
+    }
+
+    /**
+     * Get the department associated with the user.
+     */
+    public function department(): BelongsTo
+    {
+        return $this->belongsTo(Department::class);
     }
 
     public function predictions(): HasMany

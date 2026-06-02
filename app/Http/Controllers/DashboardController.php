@@ -322,19 +322,7 @@ class DashboardController extends Controller
         
         $branches = \App\Models\Branch::where('is_active', true)->orderBy('name', 'asc')->get();
 
-        $departments = [
-            'Ventas / Ventas Rutas',
-            'Administración',
-            'Logística / Despacho / Bodega',
-            'Contabilidad y Finanzas',
-            'Recursos Humanos',
-            'Sistemas / IT',
-            'Créditos y Cobros',
-            'Operaciones',
-            'Servicio al Cliente',
-            'Mercadeo',
-            'Auditoría Interna'
-        ];
+        $departments = \App\Models\Department::where('is_active', true)->orderBy('name', 'asc')->get();
 
         return view('profile', compact('user', 'branches', 'departments'));
     }
@@ -349,14 +337,14 @@ class DashboardController extends Controller
         $request->validate([
             'name' => 'required|string|max:255',
             'phone' => 'nullable|string|max:30',
-            'department' => 'required|string|max:100',
+            'department_id' => 'required|exists:departments,id',
             'branch_id' => 'required|exists:branches,id',
             'password' => 'nullable|string|min:6|confirmed',
         ]);
 
         $user->name = $request->name;
         $user->phone = $request->phone;
-        $user->department = $request->department;
+        $user->department_id = $request->department_id;
         $user->branch_id = $request->branch_id;
 
         if ($request->filled('password')) {
