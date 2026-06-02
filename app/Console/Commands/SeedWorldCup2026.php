@@ -12,6 +12,9 @@ use App\Models\AppSetting;
 use App\Models\User;
 use Illuminate\Console\Command;
 use Illuminate\Support\Str;
+use Illuminate\Support\Facades\Schema;
+use Illuminate\Support\Facades\DB;
+use Carbon\Carbon;
 
 class SeedWorldCup2026 extends Command
 {
@@ -128,248 +131,205 @@ class SeedWorldCup2026 extends Command
             ]
         );
 
-        // 6. Groups and Teams (48 teams distributed in 12 groups A to L)
-        $this->info('Creando Grupos y Selecciones del Mundial...');
-        $groupsData = [
-            'A' => [
-                ['name' => 'México', 'fifa' => 'MEX', 'cc' => 'mx'],
-                ['name' => 'Estados Unidos', 'fifa' => 'USA', 'cc' => 'us'],
-                ['name' => 'Canadá', 'fifa' => 'CAN', 'cc' => 'ca'],
-                ['name' => 'Costa Rica', 'fifa' => 'CRC', 'cc' => 'cr'],
-            ],
-            'B' => [
-                ['name' => 'Argentina', 'fifa' => 'ARG', 'cc' => 'ar'],
-                ['name' => 'Ecuador', 'fifa' => 'ECU', 'cc' => 'ec'],
-                ['name' => 'Chile', 'fifa' => 'CHI', 'cc' => 'cl'],
-                ['name' => 'Venezuela', 'fifa' => 'VEN', 'cc' => 've'],
-            ],
-            'C' => [
-                ['name' => 'Brasil', 'fifa' => 'BRA', 'cc' => 'br'],
-                ['name' => 'Colombia', 'fifa' => 'COL', 'cc' => 'co'],
-                ['name' => 'Uruguay', 'fifa' => 'URU', 'cc' => 'uy'],
-                ['name' => 'Paraguay', 'fifa' => 'PAR', 'cc' => 'py'],
-            ],
-            'D' => [
-                ['name' => 'España', 'fifa' => 'ESP', 'cc' => 'es'],
-                ['name' => 'Portugal', 'fifa' => 'POR', 'cc' => 'pt'],
-                ['name' => 'Marruecos', 'fifa' => 'MAR', 'cc' => 'ma'],
-                ['name' => 'Egipto', 'fifa' => 'EGY', 'cc' => 'eg'],
-            ],
-            'E' => [
-                ['name' => 'Francia', 'fifa' => 'FRA', 'cc' => 'fr'],
-                ['name' => 'Países Bajos', 'fifa' => 'NED', 'cc' => 'nl'],
-                ['name' => 'Senegal', 'fifa' => 'SEN', 'cc' => 'sn'],
-                ['name' => 'Mali', 'fifa' => 'MLI', 'cc' => 'ml'],
-            ],
-            'F' => [
-                ['name' => 'Inglaterra', 'fifa' => 'ENG', 'cc' => 'gb'],
-                ['name' => 'Gales', 'fifa' => 'WAL', 'cc' => 'gb'],
-                ['name' => 'Escocia', 'fifa' => 'SCO', 'cc' => 'gb'],
-                ['name' => 'Jamaica', 'fifa' => 'JAM', 'cc' => 'jm'],
-            ],
-            'G' => [
-                ['name' => 'Alemania', 'fifa' => 'GER', 'cc' => 'de'],
-                ['name' => 'Italia', 'fifa' => 'ITA', 'cc' => 'it'],
-                ['name' => 'Suiza', 'fifa' => 'SUI', 'cc' => 'ch'],
-                ['name' => 'Camerún', 'fifa' => 'CMR', 'cc' => 'cm'],
-            ],
-            'H' => [
-                ['name' => 'Bélgica', 'fifa' => 'BEL', 'cc' => 'be'],
-                ['name' => 'Croacia', 'fifa' => 'CRO', 'cc' => 'hr'],
-                ['name' => 'Túnez', 'fifa' => 'TUN', 'cc' => 'tn'],
-                ['name' => 'Nigeria', 'fifa' => 'NGA', 'cc' => 'ng'],
-            ],
-            'I' => [
-                ['name' => 'Dinamarca', 'fifa' => 'DEN', 'cc' => 'dk'],
-                ['name' => 'Suecia', 'fifa' => 'SWE', 'cc' => 'se'],
-                ['name' => 'Polonia', 'fifa' => 'POL', 'cc' => 'pl'],
-                ['name' => 'Ghana', 'fifa' => 'GHA', 'cc' => 'gh'],
-            ],
-            'J' => [
-                ['name' => 'Japón', 'fifa' => 'JPN', 'cc' => 'jp'],
-                ['name' => 'Corea del Sur', 'fifa' => 'KOR', 'cc' => 'kr'],
-                ['name' => 'Australia', 'fifa' => 'AUS', 'cc' => 'au'],
-                ['name' => 'Arabia Saudita', 'fifa' => 'KSA', 'cc' => 'sa'],
-            ],
-            'K' => [
-                ['name' => 'Irán', 'fifa' => 'IRN', 'cc' => 'ir'],
-                ['name' => 'Irak', 'fifa' => 'IRQ', 'cc' => 'iq'],
-                ['name' => 'Qatar', 'fifa' => 'QAT', 'cc' => 'qa'],
-                ['name' => 'Emiratos Árabes', 'fifa' => 'UAE', 'cc' => 'ae'],
-            ],
-            'L' => [
-                ['name' => 'Perú', 'fifa' => 'PER', 'cc' => 'pe'],
-                ['name' => 'Bolivia', 'fifa' => 'BOL', 'cc' => 'bo'],
-                ['name' => 'Honduras', 'fifa' => 'HON', 'cc' => 'hn'],
-                ['name' => 'Panamá', 'fifa' => 'PAN', 'cc' => 'pa'],
-            ],
-        ];
+        // 6. Clear existing predictions, matches, teams, and groups to avoid unique constraint violations
+        $this->info('Limpiando tablas de datos anteriores (predicciones, partidos, selecciones, grupos)...');
+        Schema::disableForeignKeyConstraints();
+        \App\Models\Prediction::truncate();
+        GameMatch::truncate();
+        Team::truncate();
+        TournamentGroup::truncate();
+        Schema::enableForeignKeyConstraints();
 
-        $groups = [];
-        $teams = [];
-
-        $gOrder = 1;
-        foreach ($groupsData as $gCode => $teamsInGroup) {
-            $group = TournamentGroup::updateOrCreate(
-                [
-                    'tournament_id' => $tournament->id,
-                    'code' => $gCode
-                ],
-                [
-                    'name' => "Grupo {$gCode}",
-                    'order' => $gOrder++,
-                ]
-            );
-            $groups[$gCode] = $group;
-
-            foreach ($teamsInGroup as $tData) {
-                $team = Team::updateOrCreate(
-                    [
-                        'tournament_id' => $tournament->id,
-                        'fifa_code' => $tData['fifa']
-                    ],
-                    [
-                        'tournament_group_id' => $group->id,
-                        'name' => $tData['name'],
-                        'official_name' => "Selección de " . $tData['name'],
-                        'country_code' => strtoupper($tData['cc']),
-                        'flag_url' => "https://flagcdn.com/w160/" . strtolower($tData['cc']) . ".png",
-                        'is_active' => true,
-                    ]
-                );
-                $teams[$tData['fifa']] = $team;
-            }
+        // 7. Load wc2026.json
+        $jsonPath = database_path('data/wc2026.json');
+        if (!file_exists($jsonPath)) {
+            $this->error("No se encontró el archivo JSON en: {$jsonPath}");
+            return Command::FAILURE;
         }
 
-        // 7. Matches (104 matches total: 72 Group stage, 16 round of 32, 8 round of 16, 4 quarter final, 2 semi final, 1 third place, 1 final)
-        $this->info('Programando Partidos (Calendario de 104 partidos)...');
+        $wcData = json_decode(file_get_contents($jsonPath), true);
+        $matchesList = $wcData['matches'] ?? [];
 
-        $matchNumber = 1;
-        $baseDate = now()->addDays(5)->setTime(12, 0, 0); // Start matches in 5 days for local testing
+        $this->info('Cargando grupos, selecciones y partidos desde el JSON oficial...');
 
-        // A. Group Stage (72 Matches: 6 matches per group * 12 groups)
-        foreach ($groupsData as $gCode => $teamsInGroup) {
-            $group = $groups[$gCode];
-            $fifaCodes = array_column($teamsInGroup, 'fifa');
-
-            // Standard round robin matchups for 4 teams:
-            // Match 1: 1 vs 2
-            // Match 2: 3 vs 4
-            // Match 3: 1 vs 3
-            // Match 4: 2 vs 4
-            // Match 5: 1 vs 4
-            // Match 6: 2 vs 3
-            $matchups = [
-                [$fifaCodes[0], $fifaCodes[1]],
-                [$fifaCodes[2], $fifaCodes[3]],
-                [$fifaCodes[0], $fifaCodes[3]],
-                [$fifaCodes[1], $fifaCodes[2]],
-                [$fifaCodes[0], $fifaCodes[2]],
-                [$fifaCodes[1], $fifaCodes[3]],
-            ];
-
-            foreach ($matchups as $index => $pair) {
-                $home = $teams[$pair[0]];
-                $away = $teams[$pair[1]];
-
-                // Shift dates slightly to make calendar look staggered
-                $matchTime = $baseDate->copy()->addHours($matchNumber * 3);
-
-                GameMatch::updateOrCreate(
-                    [
-                        'tournament_id' => $tournament->id,
-                        'match_number' => $matchNumber
-                    ],
-                    [
-                        'tournament_group_id' => $group->id,
-                        'home_team_id' => $home->id,
-                        'away_team_id' => $away->id,
-                        'stage' => 'group_stage',
-                        'starts_at' => $matchTime->toDateTimeString(),
-                        'status' => 'scheduled',
-                        'stadium' => 'Estadio Mundialista',
-                        'city' => 'Ciudad Sede',
-                        'country' => 'Norteamérica 2026',
-                    ]
-                );
-
-                $matchNumber++;
-            }
-        }
-
-        // B. Elimination Stages with Placeholders (32 Matches remaining)
-        $stages = [
-            'round_of_32' => 16,
-            'round_of_16' => 8,
-            'quarter_final' => 4,
-            'semi_final' => 2,
-            'third_place' => 1,
-            'final' => 1,
+        $teamDetails = [
+            'Mexico' => ['fifa' => 'MEX', 'cc' => 'mx'],
+            'South Africa' => ['fifa' => 'RSA', 'cc' => 'za'],
+            'South Korea' => ['fifa' => 'KOR', 'cc' => 'kr'],
+            'Czech Republic' => ['fifa' => 'CZE', 'cc' => 'cz'],
+            'Canada' => ['fifa' => 'CAN', 'cc' => 'ca'],
+            'Bosnia & Herzegovina' => ['fifa' => 'BIH', 'cc' => 'ba'],
+            'Qatar' => ['fifa' => 'QAT', 'cc' => 'qa'],
+            'Switzerland' => ['fifa' => 'SUI', 'cc' => 'ch'],
+            'Brazil' => ['fifa' => 'BRA', 'cc' => 'br'],
+            'Morocco' => ['fifa' => 'MAR', 'cc' => 'ma'],
+            'Haiti' => ['fifa' => 'HAI', 'cc' => 'ht'],
+            'Scotland' => ['fifa' => 'SCO', 'cc' => 'gb-sct'],
+            'USA' => ['fifa' => 'USA', 'cc' => 'us'],
+            'Paraguay' => ['fifa' => 'PAR', 'cc' => 'py'],
+            'Australia' => ['fifa' => 'AUS', 'cc' => 'au'],
+            'Turkey' => ['fifa' => 'TUR', 'cc' => 'tr'],
+            'Germany' => ['fifa' => 'GER', 'cc' => 'de'],
+            'Curaçao' => ['fifa' => 'CUW', 'cc' => 'cw'],
+            'Ivory Coast' => ['fifa' => 'CIV', 'cc' => 'ci'],
+            'Ecuador' => ['fifa' => 'ECU', 'cc' => 'ec'],
+            'Netherlands' => ['fifa' => 'NED', 'cc' => 'nl'],
+            'Japan' => ['fifa' => 'JPN', 'cc' => 'jp'],
+            'Sweden' => ['fifa' => 'SWE', 'cc' => 'se'],
+            'Tunisia' => ['fifa' => 'TUN', 'cc' => 'tn'],
+            'Belgium' => ['fifa' => 'BEL', 'cc' => 'be'],
+            'Egypt' => ['fifa' => 'EGY', 'cc' => 'eg'],
+            'Iran' => ['fifa' => 'IRN', 'cc' => 'ir'],
+            'New Zealand' => ['fifa' => 'NZL', 'cc' => 'nz'],
+            'Spain' => ['fifa' => 'ESP', 'cc' => 'es'],
+            'Cape Verde' => ['fifa' => 'CPV', 'cc' => 'cv'],
+            'Saudi Arabia' => ['fifa' => 'KSA', 'cc' => 'sa'],
+            'Uruguay' => ['fifa' => 'URU', 'cc' => 'uy'],
+            'France' => ['fifa' => 'FRA', 'cc' => 'fr'],
+            'Senegal' => ['fifa' => 'SEN', 'cc' => 'sn'],
+            'Norway' => ['fifa' => 'NOR', 'cc' => 'no'],
+            'Iraq' => ['fifa' => 'IRQ', 'cc' => 'iq'],
+            'Argentina' => ['fifa' => 'ARG', 'cc' => 'ar'],
+            'Algeria' => ['fifa' => 'ALG', 'cc' => 'dz'],
+            'Austria' => ['fifa' => 'AUT', 'cc' => 'at'],
+            'Jordan' => ['fifa' => 'JOR', 'cc' => 'jo'],
+            'Portugal' => ['fifa' => 'POR', 'cc' => 'pt'],
+            'DR Congo' => ['fifa' => 'COD', 'cc' => 'cd'],
+            'Uzbekistan' => ['fifa' => 'UZB', 'cc' => 'uz'],
+            'Colombia' => ['fifa' => 'COL', 'cc' => 'co'],
+            'England' => ['fifa' => 'ENG', 'cc' => 'gb-eng'],
+            'Croatia' => ['fifa' => 'CRO', 'cc' => 'hr'],
+            'Ghana' => ['fifa' => 'GHA', 'cc' => 'gh'],
+            'Panama' => ['fifa' => 'PAN', 'cc' => 'pa'],
         ];
 
-        foreach ($stages as $stageKey => $qty) {
-            for ($i = 1; $i <= $qty; $i++) {
-                $matchTime = $baseDate->copy()->addDays(15)->addHours($matchNumber * 4);
+        $stageMapping = [
+            'Round of 32' => 'round_of_32',
+            'Round of 16' => 'round_of_16',
+            'Quarter-final' => 'quarter_final',
+            'Semi-final' => 'semi_final',
+            'Match for third place' => 'third_place',
+            'Final' => 'final'
+        ];
 
-                $homePlaceholder = "";
-                $awayPlaceholder = "";
+        $groupsCreated = [];
+        $teamsCreated = [];
 
-                switch ($stageKey) {
-                    case 'round_of_32':
-                        $homePlaceholder = "1º Grupo " . chr(64 + ceil($i / 2));
-                        $awayPlaceholder = "Mejor 3º / 2º Grupo " . chr(65 + ($i % 12));
-                        break;
-                    case 'round_of_16':
-                        $homePlaceholder = "Ganador Partido " . ($matchNumber - 24);
-                        $awayPlaceholder = "Ganador Partido " . ($matchNumber - 23);
-                        break;
-                    case 'quarter_final':
-                        $homePlaceholder = "Ganador Partido " . ($matchNumber - 12);
-                        $awayPlaceholder = "Ganador Partido " . ($matchNumber - 11);
-                        break;
-                    case 'semi_final':
-                        $homePlaceholder = "Ganador Partido " . ($matchNumber - 6);
-                        $awayPlaceholder = "Ganador Partido " . ($matchNumber - 5);
-                        break;
-                    case 'third_place':
-                        $homePlaceholder = "Perdedor Semifinal 1";
-                        $awayPlaceholder = "Perdedor Semifinal 2";
-                        break;
-                    case 'final':
-                        $homePlaceholder = "Ganador Semifinal 1";
-                        $awayPlaceholder = "Ganador Semifinal 2";
-                        break;
+        foreach ($matchesList as $index => $matchData) {
+            $matchNumber = $index + 1;
+            $round = $matchData['round'] ?? 'Matchday';
+            $stage = $stageMapping[$round] ?? 'group_stage';
+
+            // Parse Date and Time with timezone offset
+            $date = $matchData['date'];
+            $timeString = $matchData['time'];
+            $parsedDateTime = null;
+
+            if (preg_match('/(\d{2}:\d{2})\s+UTC([+-]\d+)/', $timeString, $matchesOffset)) {
+                $time = $matchesOffset[1];
+                $offset = intval($matchesOffset[2]);
+                $sign = $offset >= 0 ? '+' : '-';
+                $absOffset = abs($offset);
+                $offsetStr = sprintf('%s%02d:00', $sign, $absOffset);
+                $parsedDateTime = Carbon::createFromFormat('Y-m-d H:i P', $date . ' ' . $time . ' ' . $offsetStr);
+            } else {
+                $parsedDateTime = Carbon::parse($date . ' ' . $timeString);
+            }
+
+            if (!empty($matchData['group'])) {
+                // Group Stage Match
+                $groupCode = trim(str_replace('Group', '', $matchData['group']));
+
+                if (!isset($groupsCreated[$groupCode])) {
+                    $groupsCreated[$groupCode] = TournamentGroup::firstOrCreate(
+                        ['tournament_id' => $tournament->id, 'code' => $groupCode],
+                        [
+                            'name' => "Grupo {$groupCode}",
+                            'order' => ord($groupCode) - ord('A') + 1
+                        ]
+                    );
                 }
+                $group = $groupsCreated[$groupCode];
 
-                GameMatch::updateOrCreate(
-                    [
-                        'tournament_id' => $tournament->id,
-                        'match_number' => $matchNumber
-                    ],
-                    [
-                        'tournament_group_id' => null,
-                        'home_team_id' => null,
-                        'away_team_id' => null,
-                        'home_placeholder' => $homePlaceholder,
-                        'away_placeholder' => $awayPlaceholder,
-                        'stage' => $stageKey,
-                        'starts_at' => $matchTime->toDateTimeString(),
-                        'status' => 'scheduled',
-                        'stadium' => 'Estadio de Eliminación',
-                        'city' => 'Sede Eliminatoria',
-                        'country' => 'Norteamérica 2026',
-                    ]
-                );
+                // Load or create team 1
+                $team1Name = $matchData['team1'];
+                if (!isset($teamsCreated[$team1Name])) {
+                    $details = $teamDetails[$team1Name] ?? ['fifa' => strtoupper(substr($team1Name, 0, 3)), 'cc' => 'un'];
+                    $teamsCreated[$team1Name] = Team::firstOrCreate(
+                        ['tournament_id' => $tournament->id, 'fifa_code' => $details['fifa']],
+                        [
+                            'tournament_group_id' => $group->id,
+                            'name' => $team1Name,
+                            'official_name' => "Selección de " . $team1Name,
+                            'country_code' => strtoupper($details['cc']),
+                            'flag_url' => "https://flagcdn.com/w160/" . strtolower($details['cc']) . ".png",
+                            'is_active' => true,
+                        ]
+                    );
+                }
+                $t1 = $teamsCreated[$team1Name];
 
-                $matchNumber++;
+                // Load or create team 2
+                $team2Name = $matchData['team2'];
+                if (!isset($teamsCreated[$team2Name])) {
+                    $details = $teamDetails[$team2Name] ?? ['fifa' => strtoupper(substr($team2Name, 0, 3)), 'cc' => 'un'];
+                    $teamsCreated[$team2Name] = Team::firstOrCreate(
+                        ['tournament_id' => $tournament->id, 'fifa_code' => $details['fifa']],
+                        [
+                            'tournament_group_id' => $group->id,
+                            'name' => $team2Name,
+                            'official_name' => "Selección de " . $team2Name,
+                            'country_code' => strtoupper($details['cc']),
+                            'flag_url' => "https://flagcdn.com/w160/" . strtolower($details['cc']) . ".png",
+                            'is_active' => true,
+                        ]
+                    );
+                }
+                $t2 = $teamsCreated[$team2Name];
+
+                // Create the match
+                GameMatch::create([
+                    'tournament_id' => $tournament->id,
+                    'tournament_group_id' => $group->id,
+                    'home_team_id' => $t1->id,
+                    'away_team_id' => $t2->id,
+                    'stage' => $stage,
+                    'match_number' => $matchNumber,
+                    'stadium' => $matchData['ground'] ?? 'Estadio',
+                    'city' => $matchData['ground'] ?? 'Sede',
+                    'country' => 'Norteamérica 2026',
+                    'starts_at' => $parsedDateTime,
+                    'status' => 'scheduled',
+                ]);
+
+            } else {
+                // Knockout Stage Match (with placeholders)
+                GameMatch::create([
+                    'tournament_id' => $tournament->id,
+                    'tournament_group_id' => null,
+                    'home_team_id' => null,
+                    'away_team_id' => null,
+                    'home_placeholder' => $matchData['team1'],
+                    'away_placeholder' => $matchData['team2'],
+                    'stage' => $stage,
+                    'match_number' => $matchNumber,
+                    'stadium' => $matchData['ground'] ?? 'Estadio',
+                    'city' => $matchData['ground'] ?? 'Sede',
+                    'country' => 'Norteamérica 2026',
+                    'starts_at' => $parsedDateTime,
+                    'status' => 'scheduled',
+                ]);
             }
         }
 
-        $this->info("¡Carga exitosa! Se cargó el torneo Mundial FIFA 2026.");
-        $this->info("- Selecciones cargadas: 48");
-        $this->info("- Grupos cargados: 12");
-        $this->info("- Reglas de puntuación creadas: 4");
-        $this->info("- Total partidos creados: 104");
+        $totalGroups = TournamentGroup::where('tournament_id', $tournament->id)->count();
+        $totalTeams = Team::where('tournament_id', $tournament->id)->count();
+        $totalMatches = GameMatch::where('tournament_id', $tournament->id)->count();
+
+        $this->info("¡Carga exitosa! Se cargaron los datos oficiales del Mundial FIFA 2026.");
+        $this->info("- Grupos creados: {$totalGroups}");
+        $this->info("- Selecciones creadas: {$totalTeams}");
+        $this->info("- Partidos creados: {$totalMatches}");
         $this->info("- Quiniela General creada: 'Quiniela General Mariscal'");
 
         return Command::SUCCESS;
