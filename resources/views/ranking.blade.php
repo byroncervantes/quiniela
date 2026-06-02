@@ -48,7 +48,6 @@
                         <th class="py-3.5 px-4 text-center w-16">Puesto</th>
                         <th class="py-3.5 px-4 w-12"></th> <!-- Rank diff arrow -->
                         <th class="py-3.5 px-4">Colaborador</th>
-                        <th class="py-3.5 px-4 hidden md:table-cell">Sucursal</th>
                         <th class="py-3.5 px-4 hidden md:table-cell">Departamento</th>
                         <th class="py-3.5 px-4 text-center">Pts</th>
                         <th class="py-3.5 px-4 text-center hidden sm:table-cell">Marcador Exacto</th>
@@ -114,15 +113,9 @@
                                     </div>
                                     <div>
                                         <span class="block font-bold text-slate-700 leading-tight">{{ $user->name }}</span>
-                                        <span class="block md:hidden text-[10px] text-slate-400 font-medium mt-0.5">{{ $user->branch?->name }} &middot; {{ $user->department?->name }}</span>
-                                        <span class="hidden md:block text-[10px] text-slate-400 font-bold uppercase tracking-wider mt-0.5">DPI: {{ $user->employee_code }}</span>
+                                        <span class="block text-[10px] text-slate-400 font-bold uppercase tracking-wider mt-0.5">{{ $user->branch?->name ?? 'Sin Sucursal' }}</span>
                                     </div>
                                 </div>
-                            </td>
-
-                            <!-- Branch Desktop -->
-                            <td class="py-4 px-4 text-slate-600 font-medium hidden md:table-cell">
-                                {{ $user->branch?->name }}
                             </td>
 
                             <!-- Department Desktop -->
@@ -154,7 +147,7 @@
                         </tr>
                     @empty
                         <tr>
-                            <td colspan="8" class="py-8 text-center text-slate-400 font-medium italic">
+                            <td colspan="7" class="py-8 text-center text-slate-400 font-medium italic">
                                 Aún no hay ningún participante aprobado en esta quiniela.
                             </td>
                         </tr>
