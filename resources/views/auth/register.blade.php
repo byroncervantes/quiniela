@@ -110,17 +110,17 @@
 
                     <!-- Branch -->
                     <div>
-                        <label for="branch" class="block text-sm font-semibold text-slate-300">
+                        <label for="branch_id" class="block text-sm font-semibold text-slate-300">
                             Sucursal
                         </label>
-                        <select id="branch" name="branch" required
+                        <select id="branch_id" name="branch_id" required
                             class="glow-input mt-1 block w-full px-4 py-2.5 rounded-xl bg-slate-800/80 border border-slate-700 text-white focus:outline-none transition-all duration-200 text-sm select-dark">
                             <option value="">Selecciona Sucursal...</option>
                             @foreach($branches as $b)
-                                <option value="{{ $b }}" {{ old('branch') == $b ? 'selected' : '' }}>{{ $b }}</option>
+                                <option value="{{ $b->id }}" {{ old('branch_id') == $b->id ? 'selected' : '' }}>{{ $b->name }}</option>
                             @endforeach
                         </select>
-                        @error('branch')
+                        @error('branch_id')
                             <p class="mt-1 text-xs text-red-400 font-semibold">{{ $message }}</p>
                         @enderror
                     </div>

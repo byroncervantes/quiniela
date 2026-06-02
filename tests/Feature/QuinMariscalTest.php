@@ -139,13 +139,20 @@ class QuinMariscalTest extends TestCase
         AppSetting::setValue('allowed_email_domains', 'distmariscal.com,mariscal.gt', 'string');
         AppSetting::setValue('registration_requires_approval', false, 'boolean');
 
+        // Create a test branch
+        $branch = \App\Models\Branch::firstOrCreate([
+            'name' => 'Sucursal Villa Nueva'
+        ], [
+            'is_active' => true,
+        ]);
+
         // 1. Attempt invalid domain registration
         $response = $this->post('/register', [
             'name' => 'Colaborador Invalido',
             'email' => 'invalido@gmail.com',
             'phone' => '12345678',
             'employee_code' => 'EMP001',
-            'branch' => 'Sucursal Villa Nueva',
+            'branch_id' => $branch->id,
             'department' => 'Administración',
             'password' => 'pass123',
             'password_confirmation' => 'pass123',
@@ -161,7 +168,7 @@ class QuinMariscalTest extends TestCase
             'email' => 'colaborador@distmariscal.com',
             'phone' => '87654321',
             'employee_code' => 'EMP002',
-            'branch' => 'Sucursal Villa Nueva',
+            'branch_id' => $branch->id,
             'department' => 'Administración',
             'password' => 'pass123',
             'password_confirmation' => 'pass123',

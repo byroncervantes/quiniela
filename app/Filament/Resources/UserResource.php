@@ -76,9 +76,10 @@ class UserResource extends Resource
                         Forms\Components\TextInput::make('department')
                             ->label('Departamento')
                             ->maxLength(255),
-                        Forms\Components\TextInput::make('branch')
+                        Forms\Components\Select::make('branch_id')
                             ->label('Sucursal')
-                            ->maxLength(255),
+                            ->relationship('branch', 'name')
+                            ->nullable(),
                         Forms\Components\TextInput::make('company')
                             ->label('Empresa')
                             ->required()
@@ -130,7 +131,7 @@ class UserResource extends Resource
                         'pending' => 'Pendiente',
                         'blocked' => 'Bloqueado',
                     ][$state] ?? $state),
-                Tables\Columns\TextColumn::make('branch')
+                Tables\Columns\TextColumn::make('branch.name')
                     ->label('Sucursal')
                     ->sortable(),
                 Tables\Columns\TextColumn::make('department')

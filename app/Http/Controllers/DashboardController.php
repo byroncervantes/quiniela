@@ -320,18 +320,7 @@ class DashboardController extends Controller
     {
         $user = Auth::user();
         
-        $branches = [
-            'Central - Ciudad de Guatemala',
-            'Sucursal Villa Nueva',
-            'Sucursal Quetzaltenango',
-            'Sucursal Chiquimula',
-            'Sucursal Escuintla',
-            'Sucursal Cobán',
-            'Sucursal Petén',
-            'Sucursal Zacapa',
-            'Sucursal Mazatenango',
-            'Distribución / Bodega Central'
-        ];
+        $branches = \App\Models\Branch::where('is_active', true)->orderBy('name', 'asc')->get();
 
         $departments = [
             'Ventas / Ventas Rutas',
@@ -361,14 +350,14 @@ class DashboardController extends Controller
             'name' => 'required|string|max:255',
             'phone' => 'nullable|string|max:30',
             'department' => 'required|string|max:100',
-            'branch' => 'required|string|max:100',
+            'branch_id' => 'required|exists:branches,id',
             'password' => 'nullable|string|min:6|confirmed',
         ]);
 
         $user->name = $request->name;
         $user->phone = $request->phone;
         $user->department = $request->department;
-        $user->branch = $request->branch;
+        $user->branch_id = $request->branch_id;
 
         if ($request->filled('password')) {
             $user->password = Hash::make($request->password);

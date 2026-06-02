@@ -67,19 +67,7 @@ class AuthController extends Controller
             return redirect()->route('dashboard');
         }
 
-        // Standard corporate structures in Guatemala
-        $branches = [
-            'Central - Ciudad de Guatemala',
-            'Sucursal Villa Nueva',
-            'Sucursal Quetzaltenango',
-            'Sucursal Chiquimula',
-            'Sucursal Escuintla',
-            'Sucursal Cobán',
-            'Sucursal Petén',
-            'Sucursal Zacapa',
-            'Sucursal Mazatenango',
-            'Distribución / Bodega Central'
-        ];
+        $branches = \App\Models\Branch::where('is_active', true)->orderBy('name', 'asc')->get();
 
         $departments = [
             'Ventas / Ventas Rutas',
@@ -127,7 +115,7 @@ class AuthController extends Controller
             'phone' => 'nullable|string|max:30',
             'employee_code' => 'required|string|max:50|unique:users,employee_code',
             'department' => 'required|string|max:100',
-            'branch' => 'required|string|max:100',
+            'branch_id' => 'required|exists:branches,id',
             'password' => 'required|string|min:6|confirmed',
             'accepted_terms' => 'accepted',
         ];
@@ -150,7 +138,7 @@ class AuthController extends Controller
             'phone' => $request->phone,
             'employee_code' => $request->employee_code,
             'department' => $request->department,
-            'branch' => $request->branch,
+            'branch_id' => $request->branch_id,
             'company' => 'Distribuidora Mariscal',
             'accepted_terms' => true,
         ]);

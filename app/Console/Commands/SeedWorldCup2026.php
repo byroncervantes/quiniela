@@ -89,6 +89,10 @@ class SeedWorldCup2026 extends Command
         // 4. Create an Admin user if none exists
         $admin = User::where('role', 'super_admin')->first();
         if (!$admin) {
+            $branch = \App\Models\Branch::firstOrCreate(
+                ['name' => 'Central - Ciudad de Guatemala'],
+                ['is_active' => true]
+            );
             $admin = User::updateOrCreate(
                 ['email' => 'admin@quinmariscal.local'],
                 [
@@ -99,7 +103,7 @@ class SeedWorldCup2026 extends Command
                     'phone' => '12345678',
                     'employee_code' => 'ADMIN01',
                     'department' => 'Administración',
-                    'branch' => 'Central',
+                    'branch_id' => $branch->id,
                     'company' => 'Distribuidora Mariscal',
                     'accepted_terms' => true,
                 ]

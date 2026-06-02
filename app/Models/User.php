@@ -8,6 +8,7 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Filament\Models\Contracts\FilamentUser;
 use Filament\Panel;
 
@@ -29,7 +30,7 @@ class User extends Authenticatable implements FilamentUser
         'phone',
         'employee_code',
         'department',
-        'branch',
+        'branch_id',
         'company',
         'accepted_terms',
     ];
@@ -54,6 +55,14 @@ class User extends Authenticatable implements FilamentUser
         'password' => 'hashed',
         'accepted_terms' => 'boolean',
     ];
+
+    /**
+     * Get the branch associated with the user.
+     */
+    public function branch(): BelongsTo
+    {
+        return $this->belongsTo(Branch::class);
+    }
 
     public function predictions(): HasMany
     {
