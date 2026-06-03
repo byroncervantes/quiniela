@@ -240,6 +240,9 @@ class SeedWorldCup2026 extends Command
                 $parsedDateTime = Carbon::parse($date . ' ' . $timeString);
             }
 
+            // Normalize to application timezone (e.g. America/Guatemala)
+            $parsedDateTime->setTimezone(config('app.timezone', 'America/Guatemala'));
+
             if (!empty($matchData['group'])) {
                 // Group Stage Match
                 $groupCode = trim(str_replace('Group', '', $matchData['group']));
