@@ -85,7 +85,9 @@
             <div class="flex h-16 items-center justify-between">
                 <!-- Branding logo/name -->
                 <div class="flex items-center gap-3">
-                    <img src="{{ asset('img/la_quiniela_de_todos.jpg') }}" alt="Logo" class="w-10 h-10 rounded-xl object-cover shadow-md transform hover:rotate-12 transition-transform duration-300">
+                    <img src="{{ asset('img/la_quiniela_de_todos.jpg') }}" alt="Logo" 
+                        style="width: 40px; height: 40px; object-fit: cover;"
+                        class="rounded-xl shadow-md transform hover:rotate-12 transition-transform duration-300">
                     <div>
                         <span class="text-base font-extrabold tracking-tight text-white uppercase">La Quiniela <span class="text-red-500">de Todos</span></span>
                         <span class="hidden sm:block text-[9px] text-slate-400 font-bold tracking-wide -mt-1 uppercase">Distribuidora Mariscal</span>

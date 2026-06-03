@@ -38,7 +38,8 @@
     <div class="sm:mx-auto sm:w-full sm:max-w-md text-center">
         <!-- Logo -->
         <img src="{{ asset('img/la_quiniela_de_todos.jpg') }}" alt="Logo La Quiniela de Todos" 
-            class="w-40 h-40 mx-auto rounded-3xl shadow-2xl border border-red-500/20 object-cover mb-4 transform hover:scale-105 transition-transform duration-300">
+            style="width: 160px; height: 160px; object-fit: cover;"
+            class="mx-auto rounded-3xl shadow-2xl border border-red-500/20 mb-4 transform hover:scale-105 transition-transform duration-300">
         
         <h2 class="text-3xl font-black tracking-tight text-white uppercase">
             La Quiniela <span class="text-red-500">de Todos</span>

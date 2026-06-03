@@ -37,7 +37,8 @@
 <body class="min-h-full flex flex-col justify-center py-12 px-4 sm:px-6 lg:px-8">
     <div class="sm:mx-auto sm:w-full sm:max-w-2xl text-center">
         <img src="{{ asset('img/la_quiniela_de_todos.jpg') }}" alt="Logo La Quiniela de Todos" 
-            class="w-32 h-32 mx-auto rounded-3xl shadow-2xl border border-red-500/20 object-cover mb-4 transform hover:scale-105 transition-transform duration-300">
+            style="width: 120px; height: 120px; object-fit: cover;"
+            class="mx-auto rounded-3xl shadow-2xl border border-red-500/20 mb-4 transform hover:scale-105 transition-transform duration-300">
         
         <h2 class="text-3xl font-black tracking-tight text-white uppercase">
             Registro de Colaborador
