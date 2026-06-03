@@ -4,7 +4,6 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\DashboardController;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Artisan;
-use Illuminate\Support\Facades\Mail;
 
 /*
 |--------------------------------------------------------------------------
@@ -59,24 +58,4 @@ Route::get('/clear', function () {
     return response()->json(['status' => 'success', 'message' => 'Todas las cachés de Laravel han sido limpiadas.']);
 });
 
-// Temporary test route to debug email errors in production
-Route::get('/test-mail', function () {
-    try {
-        Mail::raw('Este es un correo de prueba de La Quiniela de Todos.', function ($message) {
-            $message->to('quiniela@dm.com.gt')
-                    ->subject('Prueba de Correo - La Quiniela de Todos');
-        });
-        return response()->json([
-            'status' => 'success', 
-            'message' => 'El correo de prueba fue enviado con éxito. Por favor revisa la bandeja de entrada y la carpeta de spam.'
-        ]);
-    } catch (\Exception $e) {
-        return response()->json([
-            'status' => 'error', 
-            'message' => $e->getMessage(),
-            'class' => get_class($e),
-            'file' => $e->getFile(),
-            'line' => $e->getLine()
-        ]);
-    }
-});
+
