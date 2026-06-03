@@ -206,7 +206,8 @@
         </div>
     </div>
 
-    <!-- Modern Dark Terms and Conditi    <div id="terms-modal" class="fixed inset-0 z-50 bg-black/75 flex items-center justify-center p-4" style="display: none;">
+    <!-- Modern Dark Terms and Conditions Modal -->
+    <div id="terms-modal" class="fixed inset-0 z-50 bg-black/75 flex items-center justify-center p-4" style="display: none;">
         <div class="bg-slate-900 rounded-3xl border border-slate-800 max-w-lg w-full overflow-hidden shadow-2xl flex flex-col max-h-[80vh]">
             <div class="p-6 border-b border-slate-800 flex justify-between items-center bg-slate-900/50">
                 <h3 class="text-lg font-bold text-white">Términos y Condiciones - La Quiniela de Todos</h3>

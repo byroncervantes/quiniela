@@ -48,12 +48,12 @@
 
         @if($joinedParticipants->isEmpty())
             <!-- Banner invitation if not joined any -->
-            <div class="p-8 rounded-3xl glass-card text-center border-dashed border-2 border-slate-200 space-y-4">
-                <div class="w-16 h-16 rounded-2xl bg-blue-50 text-blue-600 flex items-center justify-center mx-auto text-3xl">
+            <div class="p-8 rounded-3xl glass-card text-center border-dashed border-2 border-slate-800 space-y-4">
+                <div class="w-16 h-16 rounded-2xl bg-red-500/10 text-red-500 flex items-center justify-center mx-auto text-3xl">
                     🏆
                 </div>
-                <h3 class="text-lg font-bold text-slate-800">Aún no estás participando en ninguna quiniela</h3>
-                <p class="text-sm text-slate-500 max-w-sm mx-auto">
+                <h3 class="text-lg font-bold text-white">Aún no estás participando en ninguna quiniela</h3>
+                <p class="text-sm text-slate-400 max-w-sm mx-auto">
                     Para poder ingresar tus marcadores y acumular puntos, debes unirte a una quiniela activa de la empresa.
                 </p>
                 <div class="pt-2">
@@ -62,14 +62,14 @@
                             @foreach($availablePools as $pool)
                                 <form action="{{ route('pools.join', $pool->id) }}" method="POST">
                                     @csrf
-                                    <button type="submit" class="px-6 py-3 rounded-xl bg-blue-600 text-white font-bold text-sm hover:bg-blue-500 shadow-md transition-colors cursor-pointer">
+                                    <button type="submit" class="px-6 py-3 rounded-xl bg-red-600 text-white font-bold text-sm hover:bg-red-500 shadow-md transition-colors cursor-pointer">
                                         Unirse a {{ $pool->name }}
                                     </button>
                                 </form>
                             @endforeach
                         </div>
                     @else
-                        <p class="text-xs text-amber-600 font-semibold">
+                        <p class="text-xs text-amber-400 font-semibold">
                             ⚠️ No hay quinielas públicas abiertas en este momento. Por favor contacta al administrador.
                         </p>
                     @endif
@@ -82,11 +82,11 @@
                     @php 
                         $pool = $participant->pool;
                         $statusClass = [
-                            'approved' => 'bg-emerald-100 text-emerald-800 border-emerald-200',
-                            'pending' => 'bg-amber-100 text-amber-800 border-amber-200',
-                            'rejected' => 'bg-rose-100 text-rose-800 border-rose-200',
-                            'blocked' => 'bg-slate-100 text-slate-800 border-slate-200',
-                        ][$participant->status] ?? 'bg-slate-100 text-slate-800';
+                            'approved' => 'bg-emerald-950/40 text-emerald-400 border-emerald-900/30',
+                            'pending' => 'bg-amber-950/40 text-amber-400 border-amber-900/30',
+                            'rejected' => 'bg-rose-950/40 text-rose-400 border-rose-900/30',
+                            'blocked' => 'bg-slate-900 text-slate-400 border-slate-800',
+                        ][$participant->status] ?? 'bg-slate-900 text-slate-400';
 
                         $statusText = [
                             'approved' => 'Aprobado y Activo',
@@ -96,7 +96,7 @@
                         ][$participant->status] ?? $participant->status;
                     @endphp
 
-                    <div class="glass-card rounded-3xl border border-slate-100 overflow-hidden shadow-sm hover:shadow-md transition-shadow flex flex-col justify-between">
+                    <div class="glass-card rounded-3xl border border-red-500/10 overflow-hidden shadow-sm hover:shadow-md transition-shadow flex flex-col justify-between">
                         <div class="p-6 space-y-4">
                             <!-- Pool Title & Status -->
                             <div class="flex justify-between items-start gap-4">
