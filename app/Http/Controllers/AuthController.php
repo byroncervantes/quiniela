@@ -132,12 +132,12 @@ class AuthController extends Controller
         ]);
 
         if ($requiresApproval) {
-            return redirect()->route('login')->with('status', 'Registro exitoso. Tu cuenta está pendiente de aprobación por parte del administrador de QuinMariscal.');
+            return redirect()->route('login')->with('status', 'Registro exitoso. Tu cuenta está pendiente de aprobación por parte del administrador de La Quiniela de Todos.');
         }
 
         Auth::login($user);
 
-        return redirect()->route('dashboard')->with('success', '¡Bienvenido a QuinMariscal! Te has registrado con éxito.');
+        return redirect()->route('dashboard')->with('success', '¡Bienvenido a La Quiniela de Todos! Te has registrado con éxito.');
     }
 
     public function logout(Request $request)

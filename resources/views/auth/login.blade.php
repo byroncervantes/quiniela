@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html lang="es" class="h-full bg-slate-900">
+<html lang="es" class="h-full bg-black">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Iniciar Sesión - QuinMariscal</title>
+    <title>Iniciar Sesión - La Quiniela de Todos</title>
     
     <!-- Premium Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -16,37 +16,37 @@
     <style>
         body {
             font-family: 'Outfit', sans-serif;
-            background: radial-gradient(circle at top right, #1e3a8a 0%, #0f172a 70%);
+            background: radial-gradient(circle at center, #1b0606 0%, #000000 100%);
             -webkit-tap-highlight-color: transparent;
         }
 
         .glass-login {
-            background: rgba(15, 23, 42, 0.65);
+            background: rgba(13, 13, 16, 0.8);
             backdrop-filter: blur(16px);
             -webkit-backdrop-filter: blur(16px);
-            border: 1px solid rgba(255, 255, 255, 0.08);
-            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.4);
+            border: 1px solid rgba(239, 68, 68, 0.15);
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.7);
         }
 
         .glow-input:focus {
-            box-shadow: 0 0 15px rgba(59, 130, 246, 0.4);
-            border-color: #3b82f6;
+            box-shadow: 0 0 15px rgba(239, 68, 68, 0.3);
+            border-color: #ef4444;
         }
     </style>
 </head>
 <body class="h-full flex flex-col justify-center py-12 sm:px-6 lg:px-8">
     <div class="sm:mx-auto sm:w-full sm:max-w-md text-center">
         <!-- Logo -->
-        <div class="inline-flex w-16 h-16 rounded-2xl bg-red-600 items-center justify-center text-white font-black text-3xl shadow-xl shadow-red-900/30 mb-4 transform hover:rotate-12 transition-transform duration-300">
-            QM
-        </div>
-        <h2 class="text-3xl font-extrabold tracking-tight text-white">
-            Quin<span class="text-red-500">Mariscal</span>
+        <img src="{{ asset('img/la_quiniela_de_todos.jpg') }}" alt="Logo La Quiniela de Todos" 
+            class="w-40 h-40 mx-auto rounded-3xl shadow-2xl border border-red-500/20 object-cover mb-4 transform hover:scale-105 transition-transform duration-300">
+        
+        <h2 class="text-3xl font-black tracking-tight text-white uppercase">
+            La Quiniela <span class="text-red-500">de Todos</span>
         </h2>
-        <p class="mt-2 text-sm text-slate-400 font-medium uppercase tracking-widest">
-            Distribuidora Mariscal
+        <p class="mt-2 text-xs text-slate-400 font-bold uppercase tracking-widest leading-relaxed max-w-sm mx-auto px-4">
+            Unión D Mayoreo &middot; Ceramipiso &middot; Distribuidora Mariscal &middot; Boulevard Design
         </p>
-        <p class="mt-1 text-xs text-slate-500">
+        <p class="mt-1 text-xs text-red-500 font-semibold tracking-wider uppercase">
             Mundial FIFA 2026
         </p>
     </div>
@@ -75,7 +75,7 @@
                     </label>
                     <div class="mt-1">
                         <input id="email" name="email" type="email" autocomplete="email" required value="{{ old('email') }}"
-                            class="glow-input block w-full px-4 py-3 rounded-xl bg-slate-800/80 border border-slate-700 text-white placeholder-slate-500 focus:outline-none transition-all duration-200 text-sm"
+                            class="glow-input block w-full px-4 py-3 rounded-xl bg-slate-900/80 border border-slate-700 text-white placeholder-slate-500 focus:outline-none transition-all duration-200 text-sm"
                             placeholder="usuario@distmariscal.com">
                     </div>
                     @error('email')
@@ -89,7 +89,7 @@
                     </label>
                     <div class="mt-1">
                         <input id="password" name="password" type="password" autocomplete="current-password" required
-                            class="glow-input block w-full px-4 py-3 rounded-xl bg-slate-800/80 border border-slate-700 text-white placeholder-slate-500 focus:outline-none transition-all duration-200 text-sm"
+                            class="glow-input block w-full px-4 py-3 rounded-xl bg-slate-900/80 border border-slate-700 text-white placeholder-slate-500 focus:outline-none transition-all duration-200 text-sm"
                             placeholder="••••••••">
                     </div>
                     @error('password')
@@ -100,7 +100,7 @@
                 <div class="flex items-center justify-between">
                     <div class="flex items-center">
                         <input id="remember" name="remember" type="checkbox"
-                            class="h-4.5 w-4.5 rounded border-slate-700 bg-slate-800 text-blue-600 focus:ring-blue-500 focus:ring-offset-slate-900">
+                            class="h-4.5 w-4.5 rounded border-slate-700 bg-slate-900 text-red-600 focus:ring-red-500 focus:ring-offset-slate-950">
                         <label for="remember" class="ml-2 block text-sm text-slate-400 font-medium select-none">
                             Recordarme
                         </label>
@@ -109,7 +109,7 @@
 
                 <div>
                     <button type="submit"
-                        class="w-full flex justify-center py-3.5 px-4 rounded-xl border border-transparent shadow-lg text-sm font-bold text-white bg-blue-600 hover:bg-blue-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition-all duration-150 transform active:scale-98 cursor-pointer">
+                        class="w-full flex justify-center py-3.5 px-4 rounded-xl border border-transparent shadow-lg text-sm font-bold text-white bg-red-600 hover:bg-red-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500 transition-all duration-150 transform active:scale-98 cursor-pointer">
                         Ingresar a la Quiniela
                     </button>
                 </div>
@@ -117,7 +117,7 @@
 
             <div class="mt-6 border-t border-slate-800 pt-6 text-center">
                 <span class="text-sm text-slate-400">¿Eres colaborador y no tienes cuenta?</span>
-                <a href="{{ route('register') }}" class="block mt-2 text-sm font-bold text-blue-400 hover:text-blue-300 transition-colors">
+                <a href="{{ route('register') }}" class="block mt-2 text-sm font-bold text-red-400 hover:text-red-300 transition-colors">
                     Regístrate aquí &rarr;
                 </a>
             </div>

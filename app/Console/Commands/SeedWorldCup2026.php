@@ -40,15 +40,15 @@ class SeedWorldCup2026 extends Command
         $this->info('Iniciando carga de la Quiniela Mundial FIFA 2026...');
 
         // 1. App Settings
-        $this->info('Cargando configuraciones iniciales de QuinMariscal...');
+        $this->info('Cargando configuraciones iniciales de La Quiniela de Todos...');
         AppSetting::setValue('registration_enabled', true, 'boolean', 'general', 'Habilitar autoregistro de usuarios');
         AppSetting::setValue('registration_requires_approval', false, 'boolean', 'general', 'Requiere aprobación de administrador para registro');
         AppSetting::setValue('allowed_email_domains', '', 'string', 'general', 'Dominios de email permitidos (separados por coma, ej: distmariscal.com,mariscal.gt). Dejar vacío para registro abierto.');
         AppSetting::setValue('require_invitation_code', false, 'boolean', 'general', 'Requiere código de invitación para unirse a quinielas');
         AppSetting::setValue('public_rankings_enabled', true, 'boolean', 'general', 'Permitir visualización de rankings públicos');
         AppSetting::setValue('predictions_close_minutes_before_match', 0, 'integer', 'general', 'Minutos antes del inicio del partido para cerrar pronósticos');
-        AppSetting::setValue('terms_and_conditions_text', 'Esta quiniela es una actividad recreativa interna de Distribuidora Mariscal. La participación no implica apuestas monetarias obligatorias. Las reglas, premios simbólicos y criterios de desempate serán definidos por la administración.', 'string', 'general', 'Texto de términos y condiciones');
-        AppSetting::setValue('welcome_message', '¡Bienvenido a QuinMariscal! La quiniela mundialista oficial de Distribuidora Mariscal.', 'string', 'general', 'Mensaje de bienvenida');
+        AppSetting::setValue('terms_and_conditions_text', 'Esta quiniela es una actividad recreativa interna. La participación no implica apuestas monetarias obligatorias. Las reglas, premios simbólicos y criterios de desempate serán definidos por la administración.', 'string', 'general', 'Texto de términos y condiciones');
+        AppSetting::setValue('welcome_message', '¡Bienvenido a La Quiniela de Todos! La quiniela mundialista oficial de Distribuidora Mariscal.', 'string', 'general', 'Mensaje de bienvenida');
 
         // 2. Tournament
         $this->info('Creando Torneo...');
@@ -56,7 +56,7 @@ class SeedWorldCup2026 extends Command
             ['slug' => 'mundial-fifa-2026'],
             [
                 'name' => 'Mundial FIFA 2026',
-                'description' => 'Quiniela oficial de Distribuidora Mariscal para el Mundial de Fútbol FIFA 2026 (EE.UU., Canadá y México).',
+                'description' => 'La Quiniela de Todos - Quiniela oficial de Distribuidora Mariscal para el Mundial de Fútbol FIFA 2026 (EE.UU., Canadá y México).',
                 'year' => 2026,
                 'status' => 'active',
                 'starts_at' => '2026-06-11 12:00:00',
@@ -101,9 +101,9 @@ class SeedWorldCup2026 extends Command
                 ['is_active' => true]
             );
             $admin = User::updateOrCreate(
-                ['email' => 'admin@quinmariscal.local'],
+                ['email' => 'admin@laquinieladetodos.local'],
                 [
-                    'name' => 'Administrador QuinMariscal',
+                    'name' => 'Administrador La Quiniela de Todos',
                     'password' => bcrypt('password'),
                     'role' => 'super_admin',
                     'status' => 'active',
@@ -115,7 +115,7 @@ class SeedWorldCup2026 extends Command
                     'accepted_terms' => true,
                 ]
             );
-            $this->info('Usuario Administrador inicial creado (admin@quinmariscal.local / password).');
+            $this->info('Usuario Administrador inicial creado (admin@laquinieladetodos.local / password).');
         }
 
         // 5. Default Pool
@@ -124,8 +124,8 @@ class SeedWorldCup2026 extends Command
             ['slug' => 'quiniela-general-mariscal'],
             [
                 'tournament_id' => $tournament->id,
-                'name' => 'Quiniela General Mariscal',
-                'description' => 'La quiniela general abierta para todos los colaboradores de Distribuidora Mariscal.',
+                'name' => 'La Quiniela de Todos',
+                'description' => 'La quiniela general abierta para todos los colaboradores.',
                 'visibility' => 'public',
                 'join_mode' => 'open',
                 'is_active' => true,
@@ -334,7 +334,7 @@ class SeedWorldCup2026 extends Command
         $this->info("- Grupos creados: {$totalGroups}");
         $this->info("- Selecciones creadas: {$totalTeams}");
         $this->info("- Partidos creados: {$totalMatches}");
-        $this->info("- Quiniela General creada: 'Quiniela General Mariscal'");
+        $this->info("- Quiniela General creada: '{$pool->name}'");
 
         return Command::SUCCESS;
     }
