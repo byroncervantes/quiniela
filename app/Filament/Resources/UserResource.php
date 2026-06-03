@@ -75,7 +75,8 @@ class UserResource extends Resource
                             ->required()
                             ->minLength(13)
                             ->maxLength(20)
-                            ->regex('/^[0-9]+$/'),
+                            ->regex('/^[0-9]+$/')
+                            ->unique(User::class, 'employee_code', ignoreRecord: true),
                         Forms\Components\Select::make('department_id')
                             ->label('Departamento')
                             ->relationship('department', 'name')
