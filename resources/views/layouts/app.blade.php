@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="es" class="h-full bg-slate-50">
+<html lang="es" class="h-full bg-[#060608]">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -82,7 +82,7 @@
     </style>
     @yield('styles')
 </head>
-<body class="h-full flex flex-col antialiased">
+<body class="min-h-full flex flex-col antialiased">
 
     <!-- Top Premium Desktop Navbar -->
     <header class="sticky top-0 z-40 w-full glass-card border-b border-red-500/10">
