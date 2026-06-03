@@ -30,7 +30,7 @@
         </div>
 
         <div class="relative z-10 flex flex-col sm:flex-row gap-3">
-            <a href="{{ route('matches') }}" class="px-5 py-3 rounded-xl bg-white text-red-700 font-bold text-sm text-center shadow-md hover:bg-red-50 transition-all active:scale-95">
+            <a href="{{ route('matches') }}" style="color: #7f1d1d !important;" class="px-5 py-3 rounded-xl bg-white font-extrabold text-sm text-center shadow-md hover:bg-red-50 transition-all active:scale-95">
                 Calendario de Partidos
             </a>
             <a href="{{ route('rules') }}" class="px-5 py-3 rounded-xl bg-red-600 text-white font-bold text-sm text-center shadow-md hover:bg-red-500 transition-all active:scale-95">
