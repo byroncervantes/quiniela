@@ -82,4 +82,26 @@ Route::get('/test-mail', function (\Illuminate\Http\Request $request) {
     }
 });
 
+// Temporary test route to debug native PHP mail
+Route::get('/test-php-mail', function (\Illuminate\Http\Request $request) {
+    $to = $request->query('to', 'byroncervantes@gmail.com');
+    $from = $request->query('from', 'quiniela@dm.com.gt');
+    
+    $subject = "Prueba PHP Mail ({$from}) - La Quiniela";
+    $message = "Este es un correo de prueba enviado usando la funcion nativa mail() de PHP desde {$from}.";
+    
+    $headers = "From: {$from}\r\n" .
+               "Reply-To: {$from}\r\n" .
+               "X-Mailer: PHP/" . phpversion();
+
+    $success = mail($to, $subject, $message, $headers);
+
+    return response()->json([
+        'status' => $success ? 'success' : 'error',
+        'message' => $success ? "Correo enviado usando PHP mail() desde {$from} a {$to}." : "Fallo al enviar usando PHP mail().",
+        'to' => $to,
+        'from' => $from
+    ]);
+});
+
 
