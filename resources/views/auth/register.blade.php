@@ -32,6 +32,11 @@
             box-shadow: 0 0 15px rgba(239, 68, 68, 0.3);
             border-color: #ef4444;
         }
+
+        .select-dark, .select-dark option {
+            background-color: #0f172a !important;
+            color: #ffffff !important;
+        }
     </style>
 </head>
 <body class="min-h-screen flex flex-col justify-center py-12 px-4 sm:px-6 lg:px-8">

@@ -74,6 +74,11 @@
         ::-webkit-scrollbar-thumb:hover {
             background: #94a3b8;
         }
+
+        .select-dark, .select-dark option {
+            background-color: #0f172a !important;
+            color: #ffffff !important;
+        }
     </style>
     @yield('styles')
 </head>
