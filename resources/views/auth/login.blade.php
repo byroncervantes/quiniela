@@ -34,7 +34,7 @@
         }
     </style>
 </head>
-<body class="h-full flex flex-col justify-center py-12 sm:px-6 lg:px-8">
+<body class="min-h-screen flex flex-col justify-center py-12 sm:px-6 lg:px-8">
     <div class="sm:mx-auto sm:w-full sm:max-w-md text-center">
         <!-- Logo -->
         <img src="{{ asset('img/la_quiniela_de_todos.jpg') }}" alt="Logo La Quiniela de Todos" 
