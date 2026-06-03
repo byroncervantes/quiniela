@@ -153,7 +153,7 @@ class MatchResource extends Resource
                     ->sortable(),
                 Tables\Columns\TextColumn::make('teams')
                     ->label('Encuentro')
-                    ->formatStateUsing(function (GameMatch $record) {
+                    ->getStateUsing(function (GameMatch $record) {
                         $home = $record->homeTeam ? $record->homeTeam->name : ($record->home_placeholder ?: 'TBD');
                         $away = $record->awayTeam ? $record->awayTeam->name : ($record->away_placeholder ?: 'TBD');
                         

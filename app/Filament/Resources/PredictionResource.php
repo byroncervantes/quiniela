@@ -79,7 +79,7 @@ class PredictionResource extends Resource
                     ->sortable(),
                 Tables\Columns\TextColumn::make('prediction')
                     ->label('Pronóstico')
-                    ->formatStateUsing(fn (Prediction $record) => "{$record->predicted_home_score} - {$record->predicted_away_score}"),
+                    ->getStateUsing(fn (Prediction $record) => "{$record->predicted_home_score} - {$record->predicted_away_score}"),
                 Tables\Columns\TextColumn::make('points_awarded')
                     ->label('Puntos')
                     ->sortable(),
