@@ -122,10 +122,22 @@
                             Administración
                         </a>
                     @endif
-                </nav>>
+                </nav>
 
                 <!-- Right profile controls / Logout -->
                 <div class="flex items-center gap-4">
+                    <!-- Live Clock (visible globally in header) -->
+                    <div class="flex items-center gap-1.5 sm:gap-2.5 px-2 py-1 sm:px-3 sm:py-1.5 rounded-xl bg-slate-950/40 border border-red-500/10 text-[9px] sm:text-[10px] text-slate-400 font-semibold uppercase tracking-wider select-none">
+                        <span class="relative flex h-1.5 w-1.5 shrink-0">
+                            <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
+                            <span class="relative inline-flex rounded-full h-1.5 w-1.5 bg-emerald-500"></span>
+                        </span>
+                        <div class="flex flex-col text-left leading-normal font-sans">
+                            <span>Oficial: <span id="server-time-display" class="text-white font-black">--:--:--</span></span>
+                            <span id="local-time-container" class="hidden sm:inline text-[8px] text-slate-500 font-bold -mt-0.5">Local: <span id="local-time-display" class="text-slate-400 font-medium">--:--:--</span></span>
+                        </div>
+                    </div>
+
                     <div class="hidden sm:flex flex-col text-right">
                         <span class="text-xs font-bold text-slate-200">{{ Auth::user()->name }}</span>
                         <span class="text-[10px] text-slate-400 font-semibold uppercase tracking-wider capitalize">{{ Auth::user()->branch?->name }} &middot; {{ Auth::user()->department?->name }}</span>
@@ -212,5 +224,54 @@
     </footer>
 
     @yield('scripts')
+
+    <!-- Live Clock Script -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const serverTimeDisplay = document.getElementById('server-time-display');
+            const localTimeDisplay = document.getElementById('local-time-display');
+            
+            // Server time from backend in milliseconds (independent of timezone)
+            let serverTimeMs = {{ now()->valueOf() }};
+            
+            const serverFormatter = new Intl.DateTimeFormat('es-GT', {
+                timeZone: 'America/Guatemala',
+                hour: '2-digit',
+                minute: '2-digit',
+                second: '2-digit',
+                hour12: true
+            });
+            
+            const localFormatter = new Intl.DateTimeFormat('es-GT', {
+                hour: '2-digit',
+                minute: '2-digit',
+                second: '2-digit',
+                hour12: true
+            });
+            
+            function updateClocks() {
+                try {
+                    const serverDate = new Date(serverTimeMs);
+                    if (serverTimeDisplay) {
+                        serverTimeDisplay.textContent = serverFormatter.format(serverDate);
+                    }
+                    
+                    const localDate = new Date();
+                    if (localTimeDisplay) {
+                        localTimeDisplay.textContent = localFormatter.format(localDate);
+                    }
+                } catch (e) {
+                    console.error('Error updating clocks:', e);
+                }
+                
+                // Increment server time by 1 second for the next tick
+                serverTimeMs += 1000;
+            }
+            
+            // Initial call and set interval
+            updateClocks();
+            setInterval(updateClocks, 1000);
+        });
+    </script>
 </body>
 </html>
