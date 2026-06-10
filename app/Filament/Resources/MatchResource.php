@@ -97,7 +97,8 @@ class MatchResource extends Resource
                         Forms\Components\TextInput::make('country')
                             ->label('País'),
                         Forms\Components\DateTimePicker::make('predictions_locked_at')
-                            ->label('Bloqueo Manual de Pronósticos (Opcional)'),
+                            ->label('Fecha/Hora Límite de Pronósticos (Opcional)')
+                            ->helperText('Permite programar una fecha/hora específica para cerrar los pronósticos. Si se deja vacío, se bloquearán automáticamente al iniciar el partido.'),
                     ])->columns(2),
 
                 \Filament\Schemas\Components\Section::make()

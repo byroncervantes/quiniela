@@ -85,8 +85,13 @@ class GameMatch extends Model
      */
     public function isPredictionsLocked(): bool
     {
-        if ($this->status === 'finished' || $this->status === 'cancelled' || !empty($this->predictions_locked_at)) {
+        if ($this->status === 'finished' || $this->status === 'cancelled') {
             return true;
+        }
+
+        // If there is a manual lock date/time set, check if that time has passed
+        if ($this->predictions_locked_at) {
+            return now()->greaterThanOrEqualTo($this->predictions_locked_at);
         }
 
         // Lock based on match start time (or close setting)
