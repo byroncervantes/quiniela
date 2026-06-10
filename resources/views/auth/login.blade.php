@@ -50,6 +50,11 @@
         <p class="mt-1 text-xs text-red-500 font-semibold tracking-wider uppercase">
             Mundial FIFA 2026
         </p>
+        <div class="mt-3">
+            <a href="{{ route('register') }}" class="inline-block text-xs font-bold text-red-400 hover:text-red-300 transition-colors tracking-widest uppercase">
+                REGÍSTRATE AQUÍ
+            </a>
+        </div>
     </div>
 
     <div class="mt-8 sm:mx-auto sm:w-full sm:max-w-md px-4">
