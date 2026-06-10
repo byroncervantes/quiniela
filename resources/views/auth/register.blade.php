@@ -78,7 +78,7 @@
                     <!-- Email -->
                     <div>
                         <label for="email" class="block text-sm font-semibold text-slate-300">
-                            Correo Corporativo / Personal
+                            Correo Electrónico
                         </label>
                         <input id="email" name="email" type="email" required value="{{ old('email') }}"
                             class="glow-input mt-1 block w-full px-4 py-2.5 rounded-xl bg-slate-900/80 border border-slate-700 text-white placeholder-slate-500 focus:outline-none transition-all duration-200 text-sm"

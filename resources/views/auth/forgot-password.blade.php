@@ -65,7 +65,7 @@
             @endif
 
             <p class="text-sm text-slate-300 mb-6 leading-relaxed text-center">
-                ¿Olvidaste tu contraseña? Ingresa tu correo corporativo y te enviaremos un enlace para restablecerla.
+                ¿Olvidaste tu contraseña? Ingresa tu correo electrónico y te enviaremos un enlace para restablecerla.
             </p>
 
             <form class="space-y-6" action="{{ route('password.email') }}" method="POST">
@@ -73,7 +73,7 @@
 
                 <div>
                     <label for="email" class="block text-sm font-semibold text-slate-300">
-                        Correo Electrónico Corporativo
+                        Correo Electrónico
                     </label>
                     <div class="mt-1">
                         <input id="email" name="email" type="email" autocomplete="email" required value="{{ old('email') }}"

@@ -39,7 +39,7 @@
                 <!-- Email (Read-only / Unchangeable) -->
                 <div>
                     <label class="block text-xs font-bold text-slate-400 uppercase tracking-wider mb-1.5">
-                        Correo Corporativo (No modificable)
+                        Correo Electrónico (No modificable)
                     </label>
                     <input type="email" disabled value="{{ $user->email }}"
                         class="block w-full px-4 py-2.5 rounded-xl bg-slate-950/80 border border-slate-800/80 text-sm text-slate-500 cursor-not-allowed">

@@ -72,7 +72,7 @@
 
                 <div>
                     <label for="email" class="block text-sm font-semibold text-slate-300">
-                        Correo Electrónico Corporativo
+                        Correo Electrónico
                     </label>
                     <div class="mt-1">
                         <input id="email" name="email" type="email" autocomplete="email" required value="{{ old('email') }}"
