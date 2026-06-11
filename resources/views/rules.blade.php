@@ -91,7 +91,7 @@
             <div class="p-4 rounded-2xl bg-slate-950/40 border border-red-500/10 space-y-2">
                 <span class="block font-bold text-slate-200">📢 Aspectos Clave a Recordar:</span>
                 <ul class="list-disc pl-4 space-y-1.5 text-slate-400">
-                    <li>El cierre de pronósticos de cada partido ocurre exactamente al segundo de iniciar el partido programado según la hora local de los servidores. ¡No dejes tus marcadores para última hora!</li>
+                    <li>El cierre de pronósticos de cada partido irá ocurriendo de acuerdo a las indicaciones que se irán dando en los chats de comunicación oficial ¡No dejes tus marcadores para último hora!</li>
                     <li>Cada colaborador tiene derecho a una única cuenta. Los perfiles duplicados o fraudulentos serán dados de baja de inmediato sin posibilidad de reclamo.</li>
                     <li>Ante cualquier discrepancia en la interpretación de los marcadores o resultados oficiales, la decisión del Administrador de la Quiniela de Distribuidora Mariscal será de carácter final.</li>
                 </ul>
